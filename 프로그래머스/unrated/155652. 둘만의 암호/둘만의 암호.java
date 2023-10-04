@@ -20,14 +20,10 @@ class Solution {
                 for(int k = 0; k<skip.length(); k++){
                     if(tmpS == charArray[k] &&tmpS != 122){
                         tmpS++;
-                        System.out.print(k+" "+tmpS);
                         k=-1;
-                        System.out.print(k+" "+tmpS);
                     }else if(tmpS == 123 || (charArray[k]=='z'&& tmpS == 'z')){
                         tmpS = 'a';
-                        System.out.print(k+" "+tmpS);
                         k=-1;
-                        System.out.print(k+" "+tmpS);
                     }
                        
                     
