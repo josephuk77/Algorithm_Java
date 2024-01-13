@@ -1,36 +1,21 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 class Solution {
     public int[] solution(String[] id_list, String[] report, int k) {
-        int[] answer = new int[id_list.length];
-        Map<String, Set<String>> reporter = new HashMap<>();
-        Map<String, Integer> count = new HashMap<>();
-
-        for (String s : id_list) {
-            reporter.put(s, new HashSet<>());
-            count.put(s, 0);
+        List<String> list = Arrays.stream(report).distinct().collect(Collectors.toList());
+        HashMap<String, Integer> count = new HashMap<>();
+        for (String s : list) {
+            String target = s.split(" ")[1];
+            count.put(target, count.getOrDefault(target, 0) + 1);
         }
 
-        for (String s : report) {
-            String[] name = s.split(" ");
-            if (reporter.get(name[0]).add(name[1])) {
-                count.put(name[1], count.getOrDefault(name[1], 0) + 1);
-            }
-        }
-
-        for (Map.Entry<String, Integer> entryCount : count.entrySet()) {
-            if (entryCount.getValue() >= k) {
-                for (Map.Entry<String, Set<String>> entryReporter : reporter.entrySet()) {
-                    if (entryReporter.getValue().contains(entryCount.getKey())) {
-                        for (int i = 0; i < id_list.length; i++) {
-                            if (id_list[i].equals(entryReporter.getKey())) {
-                                answer[i]++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return answer;
+        return Arrays.stream(id_list).map(_user -> {
+            final String user = _user;
+            List<String> reportList = list.stream().filter(s -> s.startsWith(user + " ")).collect(Collectors.toList());
+            return reportList.stream().filter(s -> count.getOrDefault(s.split(" ")[1], 0) >= k).count();
+        }).mapToInt(Long::intValue).toArray();
     }
 }
