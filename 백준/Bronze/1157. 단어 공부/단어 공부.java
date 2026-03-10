@@ -3,44 +3,28 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        String upper = input.toUpperCase();
-        int[] arr = getAlphabetCount(upper);
 
-        int index = findMaxIndex(arr);
-
-        if(index == '?')
-            System.out.print("?");
-        else 
-            System.out.print((char)(index+'A'));
-    }
-
-    private static int findMaxIndex(int[] arr) {
-        int max = 0;
-        int index = 0;
-        int same = -1;
-        for(int i = 0; i < arr.length; i++){
-            if(arr[i] > max){
-                max = arr[i];
-                index = i;
-            }
+        char[] input = sc.nextLine().toLowerCase().toCharArray();
+        int[] count = new int[26];
+        int result = 0, tmp = 0;
+        
+        for(char c : input) {
+        	count[c-'a']++;
         }
-        for (int j : arr) {
-            if (j == max) {
-                same++;
-            }
+
+        for(int i = 0; i < count.length; i++) {
+        	if(tmp < count[i]) {
+        		result = i;
+        		tmp = count[i];
+        	}else if(tmp == count[i]) {
+        		result = -1;
+        	}
         }
-        if(same == 0)
-            return index;
+
+        if(result == -1)
+        	System.out.println("?");
         else
-            return '?';
-    }
-
-    public static int[] getAlphabetCount(String str){
-        int[] arr = new int[26];
-        for(char a : str.toCharArray()){
-            arr[a - 'A']++;
-        }
-        return arr;
+        	System.out.println((char)('A' + result));
+        
     }
 }
