@@ -3,40 +3,43 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int y = sc.nextInt();
-        int x = sc.nextInt();
 
-        char[][] arr = new char[y][x];
-        char[] xArr = new char[x];
-        char[] yArr = new char[y];
+        int cal = sc.nextInt();
+        int row = sc.nextInt();
+        sc.nextLine(); // 남아 있는 개행 제거
 
-        for(int i = 0; i < y; i++){
-            String str = sc.next();
-            for(int j = 0; j < x; j++){
-                arr[i][j] = str.charAt(j);
-            }
+        int[] calX = new int[cal];
+        int[] rowX = new int[row];
+        char[][] arr = new char[cal][row];
+
+        int calResult = cal;
+        int rowResult = row;
+
+        for (int i = 0; i < cal; i++) {
+            arr[i] = sc.nextLine().toCharArray();
         }
 
-        for(int i = 0; i < y; i++){
-            for(int j = 0; j < x; j++){
-                if(arr[i][j] == 'X'){
-                    xArr[j] = 'X';
-                    yArr[i] = 'X';
+        for (int i = 0; i < cal; i++) {
+            for (int j = 0; j < row; j++) {
+                if (arr[i][j] == 'X') {
+                    calX[i] = 1;
+                    rowX[j] = 1;
                 }
             }
         }
-        int xCount = 0;
-        int yCount = 0;
-        for(int i = 0; i < y; i++){
-            if(yArr[i] != 'X'){
-                yCount++;
+
+        for (int i = 0; i < cal; i++) {
+            if (calX[i] == 1) {
+                calResult--;
             }
         }
-        for(int i = 0; i < x; i++){
-            if(xArr[i] != 'X'){
-                xCount++;
+
+        for (int i = 0; i < row; i++) {
+            if (rowX[i] == 1) {
+                rowResult--;
             }
         }
-        System.out.println(Math.max(xCount, yCount));
+
+        System.out.println(Math.max(calResult, rowResult));
     }
 }
