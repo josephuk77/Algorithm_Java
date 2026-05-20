@@ -23,19 +23,31 @@ class Document {
 
 class Solution {
     public int solution(int[] priorities, int location) {
-        Queue<Document> queue = IntStream.range(0, priorities.length)
-                .mapToObj(i -> new Document(priorities[i], i == location))
-                .collect(Collectors.toCollection(LinkedList::new));
+        Queue<Document> queue = new LinkedList<>();
+
+        for (int i = 0; i < priorities.length; i++) {
+            queue.offer(new Document(priorities[i], i == location));
+        }
 
         int outCount = 0;
 
         while (!queue.isEmpty()) {
             Document document = queue.poll();
 
-            if (queue.stream().anyMatch(d -> d.getPriority() > document.getPriority())) {
+            boolean hasHigherPriority = false;
+
+            for (Document d : queue) {
+                if (d.getPriority() > document.getPriority()) {
+                    hasHigherPriority = true;
+                    break;
+                }
+            }
+
+            if (hasHigherPriority) {
                 queue.offer(document);
             } else {
                 outCount++;
+
                 if (document.isMine()) {
                     break;
                 }
