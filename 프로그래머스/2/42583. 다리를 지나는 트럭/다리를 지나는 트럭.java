@@ -11,7 +11,7 @@ class Solution {
             bridge.moveTrucks();
         }
         bridge.moveTrucksEnd();
-        return bridge.count+1;
+        return bridge.count;
     }
 }
 
@@ -26,7 +26,7 @@ class Bridge {
         this.length = length;
         this.weight = weight;
         this.total_weight = 0;
-        this.count = 0;
+        this.count = 1;
         this.trucks = new ArrayList<>();
     }
     
